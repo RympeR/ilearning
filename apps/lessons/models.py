@@ -1,7 +1,9 @@
 from django.db import models
+from django.db.models import Max
 from django.utils.safestring import mark_safe
 from tinymce.models import HTMLField
-
+from django.db.models.signals import post_delete, post_save, pre_save
+from django.dispatch import receiver
 from apps.utils.func import card_attachment
 from apps.info.models import *
 from apps.users.models import *
@@ -132,6 +134,7 @@ class Group(models.Model):
         verbose_name_plural = 'Группы'
         unique_together = ('name', 'user',)
 
+
 class Plan(models.Model):
     name = models.CharField('Название плана', max_length=100)
     user = models.ForeignKey(
@@ -220,3 +223,27 @@ class Handbook(models.Model):
     class Meta:
         verbose_name = 'Справочник'
         verbose_name_plural = 'Справочники'
+
+
+@receiver(post_delete, sender=PlanCard, dispatch_uid='plan_card_delete_signal')
+def log_deleted_plancard(sender, instance, using, **kwargs):
+    qs = PlanCard.objects.filter(plan=instance.plan)
+    for ind, card in enumerate(qs):
+        card.order = ind + 1
+        card.save()
+
+
+@receiver(pre_save, sender=PlanCard, dispatch_uid='plan_card_update_signal')
+def log_updated_plancard(sender, instance, created, **kwargs):
+    if created:
+        plan_card = PlanCard.objects.filter(
+            plan=instance.plan).aggregate(Max('order'))['order__max']
+        print(plan_card)
+        instance.order = plan_card.order + 1
+        instance.save()
+    else:
+        plan_card = PlanCard.objects.get(
+            plan=instance.plan, order=instance.order-1)
+        plan_card.order, instance.order = instance.order, plan_card.order
+        plan_card.save()
+        instance.save()

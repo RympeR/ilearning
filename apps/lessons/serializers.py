@@ -122,6 +122,7 @@ class PlanGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Plan
         fields = (
+            'pk',
             'name',
             'user',
             'person',
