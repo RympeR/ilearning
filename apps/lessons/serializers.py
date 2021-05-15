@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from apps.utils.customFields import RecursiveField
 from apps.info.serializers import (
     TaskTypesGetSerializer,
     LearningRangeGetSerializer,
@@ -75,7 +74,13 @@ class PurchasedCardCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PurchasedCard
-        fields = '__all__'
+        exclude = ('user', )
+    
+    def validate(self, attrs):
+        request = self.context.get('request')
+        user = request.user
+        attrs['user'] = user
+        return attrs
 
 
 class GroupGetSerializer(serializers.ModelSerializer):
@@ -91,7 +96,13 @@ class GroupCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Group
-        fields = '__all__'
+        exclude = ('user', )
+    
+    def validate(self, attrs):
+        request = self.context.get('request')
+        user = request.user
+        attrs['user'] = user
+        return attrs
 
 ##
 
@@ -107,7 +118,13 @@ class PlanCardCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PlanCard
-        fields = '__all__'
+        exclude = ('user', )
+    
+    def validate(self, attrs):
+        request = self.context.get('request')
+        user = request.user
+        attrs['user'] = user
+        return attrs
 
 ##
 
@@ -115,7 +132,7 @@ class PlanCardCreateSerializer(serializers.ModelSerializer):
 class PlanGetSerializer(serializers.ModelSerializer):
 
     user = UserGetSerializer()
-    cards = CardGetSerializer()
+    cards = CardGetSerializer(many=True)
     groups = GroupGetSerializer(many=True)
     case_to_cards = PlanCardRetrieveSerializer(many=True)
 
@@ -125,7 +142,7 @@ class PlanGetSerializer(serializers.ModelSerializer):
             'pk',
             'name',
             'user',
-            'person',
+            'cards',
             'case_to_cards',
             'groups'
         )
@@ -135,8 +152,13 @@ class PlanCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Plan
-        fields = '__all__'
-
+        exclude = ('user', )
+    
+    def validate(self, attrs):
+        request = self.context.get('request')
+        user = request.user
+        attrs['user'] = user
+        return attrs
 ##
 
 
@@ -165,4 +187,10 @@ class CollectionCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Collection
-        fields = '__all__'
+        exclude = ('user', )
+
+    def validate(self, attrs):
+        request = self.context.get('request')
+        user = request.user
+        attrs['user'] = user
+        return attrs

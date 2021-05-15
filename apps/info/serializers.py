@@ -19,30 +19,31 @@ class TaskTypesGetSerializer(serializers.ModelSerializer):
 
 
 class LearningRangeGetSerializer(serializers.ModelSerializer):
-
+    
     class Meta:
         model = LearningRange
         fields = '__all__'
 
 
 class LearningSubjectsGetSerializer(serializers.ModelSerializer):
-    parent = RecursiveField(many=True)
 
+    parent = serializers.PrimaryKeyRelatedField(required=False, queryset=EducationProcesses.objects.all(),)
     class Meta:
         model = LearningSubjects
         fields = '__all__'
 
 
 class LessonThemeGetSerializer(serializers.ModelSerializer):
-    parent = RecursiveField(many=True)
 
+    parent = serializers.PrimaryKeyRelatedField(required=False, queryset=EducationProcesses.objects.all(),)
     class Meta:
         model = LessonTheme
         fields = '__all__'
 
 
 class LessonTypesGetSerializer(serializers.ModelSerializer):
-    parent = RecursiveField(many=True)
+
+    parent = serializers.PrimaryKeyRelatedField(required=False, queryset=EducationProcesses.objects.all(),)
 
     class Meta:
         model = LessonTypes
@@ -50,7 +51,8 @@ class LessonTypesGetSerializer(serializers.ModelSerializer):
 
 
 class EducationProcessesGetSerializer(serializers.ModelSerializer):
-    parent = RecursiveField(many=True)
+
+    parent = serializers.PrimaryKeyRelatedField(required=False, queryset=EducationProcesses.objects.all(),)
 
     class Meta:
         model = EducationProcesses
@@ -59,7 +61,7 @@ class EducationProcessesGetSerializer(serializers.ModelSerializer):
 
 class AttachmentGetSerializer(serializers.ModelSerializer):
 
-    file = serializers.MethodField(required=False)
+    file = serializers.SerializerMethodField(required=False)
 
     class Meta:
         model = Attachment

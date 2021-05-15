@@ -22,11 +22,9 @@ from .serializers import (
     PlanCardCreateSerializer,
     PlanGetSerializer,
     PlanCreateSerializer,
-    PlanCardGetSerializer,
     CollectionGetSerializer,
     CollectionCreateSerializer,
 )
-from rest_framework.parsers import MultiPartParser, JSONParser, FormParser
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import UpdateModelMixin
 
@@ -34,14 +32,12 @@ from rest_framework.mixins import UpdateModelMixin
 class CardListAPI(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     queryset = Card.objects.all()
-    parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = CardGetSerializer
 
 
 class CardRetrieveAPI(generics.RetrieveAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     queryset = Card.objects.all()
-    parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = CardGetSerializer
 
 
@@ -55,16 +51,12 @@ class CardFilteredAPI(APIView):
 
 
 class PurchasedCardCreateAPI(generics.CreateAPIView):
-    permission_classes = (permissions.IsAuthenticated, )
     queryset = PurchasedCard.objects.all()
-    parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = PurchasedCardCreateSerializer
 
 
 class PurchasedCardListAPI(generics.ListAPIView):
-    permission_classes = (permissions.IsAuthenticated, )
     queryset = PurchasedCard.objects.all()
-    parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = PurchasedCardGetSerializer
 
     def get_queryset(self):
@@ -72,9 +64,7 @@ class PurchasedCardListAPI(generics.ListAPIView):
 
 
 class GroupListAPI(generics.ListAPIView):
-    permission_classes = (permissions.IsAuthenticated, )
     queryset = Group.objects.all()
-    parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = GroupGetSerializer
 
     def get_queryset(self):
@@ -82,23 +72,17 @@ class GroupListAPI(generics.ListAPIView):
 
 
 class GroupGetAPI(generics.RetrieveAPIView):
-    permission_classes = (permissions.IsAuthenticated, )
     queryset = Group.objects.all()
-    parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = GroupGetSerializer
 
 
 class GroupCreateAPI(generics.CreateAPIView):
-    permission_classes = (permissions.IsAuthenticated, )
     queryset = Group.objects.all()
-    parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = GroupCreateSerializer
 
 
 class GroupPartialUpdateView(GenericAPIView, UpdateModelMixin):
-    permission_classes = (permissions.IsAuthenticated, )
     queryset = Group.objects.all()
-    parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = GroupCreateSerializer
 
     def put(self, request, *args, **kwargs):
@@ -106,16 +90,12 @@ class GroupPartialUpdateView(GenericAPIView, UpdateModelMixin):
 
 
 class GroupDestroyAPI(generics.DestroyAPIView):
-    permission_classes = (permissions.IsAuthenticated, )
     queryset = Group.objects.all()
-    parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = GroupCreateSerializer
 
 
 class CollectionListAPI(generics.ListAPIView):
-    permission_classes = (permissions.IsAuthenticated, )
     queryset = Collection.objects.all()
-    parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = CollectionGetSerializer
 
     def get_queryset(self):
@@ -123,23 +103,17 @@ class CollectionListAPI(generics.ListAPIView):
 
 
 class CollectionGetAPI(generics.RetrieveAPIView):
-    permission_classes = (permissions.IsAuthenticated, )
     queryset = Group.objects.all()
-    parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = CollectionGetSerializer
 
 
 class CollectionCreateAPI(generics.CreateAPIView):
-    permission_classes = (permissions.IsAuthenticated, )
     queryset = Group.objects.all()
-    parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = CollectionCreateSerializer
 
 
 class CollectionPartialUpdateView(GenericAPIView, UpdateModelMixin):
-    permission_classes = (permissions.IsAuthenticated, )
     queryset = Group.objects.all()
-    parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = CollectionCreateSerializer
 
     def put(self, request, *args, **kwargs):
@@ -147,16 +121,12 @@ class CollectionPartialUpdateView(GenericAPIView, UpdateModelMixin):
 
 
 class CollectionDestroyAPI(generics.DestroyAPIView):
-    permission_classes = (permissions.IsAuthenticated, )
     queryset = Collection.objects.all()
-    parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = CollectionCreateSerializer
 
 
 class PlanListAPI(generics.ListAPIView):
-    permission_classes = (permissions.IsAuthenticated, )
     queryset = Plan.objects.all()
-    parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = PlanGetSerializer
 
     def get_queryset(self):
@@ -164,30 +134,22 @@ class PlanListAPI(generics.ListAPIView):
 
 
 class PlanGetAPI(generics.RetrieveAPIView):
-    permission_classes = (permissions.IsAuthenticated, )
     queryset = Plan.objects.all()
-    parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = PlanGetSerializer
 
 
 class PlanCreateAPI(generics.CreateAPIView):
-    permission_classes = (permissions.IsAuthenticated, )
     queryset = Plan.objects.all()
-    parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = PlanCreateSerializer
 
 
 class PlanDestroyAPI(generics.DestroyAPIView):
-    permission_classes = (permissions.IsAuthenticated, )
     queryset = Plan.objects.all()
-    parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = PlanCreateSerializer
 
 
 class PlanPartialUpdateView(GenericAPIView, UpdateModelMixin):
-    permission_classes = (permissions.IsAuthenticated, )
     queryset = Plan.objects.all()
-    parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = PlanCreateSerializer
 
     def put(self, request, *args, **kwargs):
@@ -195,9 +157,7 @@ class PlanPartialUpdateView(GenericAPIView, UpdateModelMixin):
 
 
 class PlanCardListAPI(generics.ListAPIView):
-    permission_classes = (permissions.IsAuthenticated, )
     queryset = PlanCard.objects.all()
-    parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = PlanCardRetrieveSerializer
 
     def get_queryset(self):
@@ -205,30 +165,22 @@ class PlanCardListAPI(generics.ListAPIView):
 
 
 class PlanCardGetAPI(generics.RetrieveAPIView):
-    permission_classes = (permissions.IsAuthenticated, )
     queryset = PlanCard.objects.all()
-    parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = PlanCardRetrieveSerializer
 
 
 class PlanCardCreateAPI(generics.CreateAPIView):
-    permission_classes = (permissions.IsAuthenticated, )
     queryset = PlanCard.objects.all()
-    parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = PlanCardCreateSerializer
 
 
 class PlanCardDestroyAPI(generics.DestroyAPIView):
-    permission_classes = (permissions.IsAuthenticated, )
     queryset = PlanCard.objects.all()
-    parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = PlanCardCreateSerializer
 
 
 class PlanPartialUpdateView(GenericAPIView, UpdateModelMixin):
-    permission_classes = (permissions.IsAuthenticated, )
     queryset = Plan.objects.all()
-    parser_classes = (JSONParser, MultiPartParser, FormParser)
     serializer_class = PlanCreateSerializer
 
     def put(self, request, *args, **kwargs):
