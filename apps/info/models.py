@@ -50,8 +50,8 @@ class LearningRange(models.Model):
         return f"{self.name}--{self.language}"
 
     class Meta:
-        verbose_name = 'Диапазон обучения'
-        verbose_name_plural = 'Диапазоны обучения'
+        verbose_name = 'Период обучения'
+        verbose_name_plural = 'Период обучения'
 
 
 class LearningSubjects(MPTTModel):
@@ -70,8 +70,8 @@ class LearningSubjects(MPTTModel):
         level_attr = 'Подкатегория предмета'
 
     class Meta:
-        verbose_name = 'Изучаемый предмет'
-        verbose_name_plural = 'Изучаемые предметы'
+        verbose_name = 'Предмет обучения'
+        verbose_name_plural = 'Предметы обучения'
 
 
 class LessonTheme(MPTTModel):
@@ -110,8 +110,8 @@ class LessonTypes(MPTTModel):
         level_attr = 'Подкатегория типа занятия'
 
     class Meta:
-        verbose_name = 'Тип урока'
-        verbose_name_plural = 'Типы уроков'
+        verbose_name = 'Тип игры'
+        verbose_name_plural = 'Типы игры'
 
 
 class EducationProcesses(MPTTModel):
@@ -143,7 +143,7 @@ class Attachment(models.Model):
         return os.path.basename(self.file.name)
     
     filename.short_description = 'Название файла'
-    
+
     def __str__(self):
         return f"{self.type}--{self.filename()}"
 
