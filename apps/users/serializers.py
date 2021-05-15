@@ -48,7 +48,7 @@ class PaymentCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Payment
-        fields = 'amount'
+        fields = 'amount', 
 
     def validate(self, attrs):
         request = self.context.get('request')
@@ -79,10 +79,4 @@ class SubscriptionGetSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Subscription
-        exclude = ('user', )
-
-    def validate(self, attrs):
-        request = self.context.get('request')
-        user = request.user
-        attrs['user'] = user
-        return attrs
+        fields = '__all__'

@@ -30,10 +30,10 @@ class LearningRangeAdmin(admin.ModelAdmin):
 
 @admin.register(Attachment)
 class AttachmentAdmin(admin.ModelAdmin):
-    list_display = ('type',)
-    list_display_links = ('type',)
-    filter_fields = ('type', )
-
+    list_display = ('filename', 'type', )
+    list_display_links = 'filename',
+    filter_fields = 'type', 
+    search_fields = 'filename',
 
 @admin.register(LearningSubjects, LessonTheme, LessonTypes, EducationProcesses)
 class TemplateAdmin(DraggableMPTTAdmin):

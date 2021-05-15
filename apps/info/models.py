@@ -142,6 +142,8 @@ class Attachment(models.Model):
     def filename(self):
         return os.path.basename(self.file.name)
     
+    filename.short_description = 'Название файла'
+    
     def __str__(self):
         return f"{self.type}--{self.filename()}"
 

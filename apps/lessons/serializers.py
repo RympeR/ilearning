@@ -118,13 +118,7 @@ class PlanCardCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PlanCard
-        exclude = ('user', )
-    
-    def validate(self, attrs):
-        request = self.context.get('request')
-        user = request.user
-        attrs['user'] = user
-        return attrs
+        fields = '__all__'
 
 ##
 
