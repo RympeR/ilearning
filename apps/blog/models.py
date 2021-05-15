@@ -7,8 +7,7 @@ class Post(models.Model):
     class AccessoryLevel(models.IntegerChoices):
         FREE = 1, 'Бесплатный'
         SUBSCRIBE = 2, 'По подписке'
-        PAID = 3, 'Покупка'
-
+        
     name = models.CharField(verbose_name='Название', max_length=200)
     slug = models.SlugField(verbose_name='Кодовое название')
     attachment = models.ManyToManyField(

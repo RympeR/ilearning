@@ -1,0 +1,167 @@
+from rest_framework import serializers
+from apps.utils.customFields import RecursiveField
+from apps.info.serializers import (
+    TaskTypesGetSerializer,
+    LearningRangeGetSerializer,
+    LearningSubjectsGetSerializer,
+    LessonThemeGetSerializer,
+    LessonTypesGetSerializer,
+    EducationProcessesGetSerializer,
+    AttachmentGetSerializer,
+)
+from apps.users.serializers import (
+    UserGetSerializer
+)
+from .models import (
+    Card,
+    PurchasedCard,
+    Group,
+    Plan,
+    Collection,
+    PlanCard,
+)
+
+
+class CardGetSerializer(serializers.ModelSerializer):
+
+    card_type = TaskTypesGetSerializer()
+    learning_range = LearningRangeGetSerializer(required=False, many=True)
+    learning_subjects = LearningSubjectsGetSerializer(
+        required=False, many=True)
+    learning_themes = LessonThemeGetSerializer(required=False, many=True)
+    learning_types = LessonTypesGetSerializer(required=False, many=True)
+    education_process = EducationProcessesGetSerializer(
+        required=False, many=True)
+    images = AttachmentGetSerializer(required=False, many=True)
+    hosting_url = serializers.URLField(required=False)
+
+    class Meta:
+        model = Card
+        fields = '__all__'
+
+    def get_preview(self, attachemnt):
+        request = self.context.get('request')
+        if getattr(attachemnt.preview, 'url'):
+            file_url = attachemnt.preview.url
+            return request.build_absolute_uri(file_url)
+        return None
+
+    def get_attachment(self, attachemnt):
+        request = self.context.get('request')
+        if getattr(attachemnt.attachemnt, 'url'):
+            file_url = attachemnt.attachment.url
+            return request.build_absolute_uri(file_url)
+        return None
+
+    def get_video(self, attachemnt):
+        request = self.context.get('request')
+        if getattr(attachemnt.video, 'url'):
+            file_url = attachemnt.video.url
+            return request.build_absolute_uri(file_url)
+        return None
+
+
+class PurchasedCardGetSerializer(serializers.ModelSerializer):
+
+    user = UserGetSerializer()
+    card = CardGetSerializer()
+
+    class Meta:
+        model = PurchasedCard
+        fields = '__all__'
+
+
+class PurchasedCardCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = PurchasedCard
+        fields = '__all__'
+
+
+class GroupGetSerializer(serializers.ModelSerializer):
+
+    user = UserGetSerializer()
+
+    class Meta:
+        model = Group
+        fields = '__all__'
+
+
+class GroupCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Group
+        fields = '__all__'
+
+##
+
+
+class PlanCardRetrieveSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = PlanCard
+        fields = '__all__'
+
+
+class PlanCardCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = PlanCard
+        fields = '__all__'
+
+##
+
+
+class PlanGetSerializer(serializers.ModelSerializer):
+
+    user = UserGetSerializer()
+    cards = CardGetSerializer()
+    groups = GroupGetSerializer(many=True)
+    case_to_cards = PlanCardRetrieveSerializer(many=True)
+
+    class Meta:
+        model = Plan
+        fields = (
+            'name',
+            'user',
+            'person',
+            'case_to_cards',
+            'groups'
+        )
+
+
+class PlanCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Plan
+        fields = '__all__'
+
+##
+
+
+class PlanCardGetSerializer(serializers.ModelSerializer):
+
+    plan = PlanGetSerializer()
+    card = CardGetSerializer()
+
+    class Meta:
+        model = PlanCard
+        fields = '__all__'
+##
+
+
+class CollectionGetSerializer(serializers.ModelSerializer):
+
+    user = UserGetSerializer()
+    cards = CardGetSerializer(many=True)
+
+    class Meta:
+        model = Collection
+        fields = '__all__'
+
+
+class CollectionCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Collection
+        fields = '__all__'

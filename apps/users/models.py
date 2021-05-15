@@ -79,7 +79,7 @@ class User(AbstractUser):
 class Payment(models.Model):
     user = models.ForeignKey(User, verbose_name='Оплативший пользователь',
                              related_name='user_payment', on_delete=models.DO_NOTHING)
-    datetime = UnixTimeStampField(verbose_name='Время оплаты')
+    datetime = UnixTimeStampField(verbose_name='Время оплаты', auto_now_add=True)
     amount = models.FloatField(verbose_name='Сумма оплаты')
 
     class Meta:
