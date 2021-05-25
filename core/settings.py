@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'silk',
     'tinymce',
     'mptt',
+    'dynamic_preferences',
     
     'apps.users',
     'apps.lessons',

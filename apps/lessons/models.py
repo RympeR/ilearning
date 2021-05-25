@@ -23,7 +23,7 @@ VALUTE_CHOICES = (
 
 class Card(models.Model):
 
-    class AcessoryLevel(models.TextChoices):
+    class AcessoryLevel(models.IntegerChoices):
         BASE = 1, 'Покупка'
         ADVANCED = 2, 'Подписка'
         PRO = 3, 'PRO  аккаунт'
