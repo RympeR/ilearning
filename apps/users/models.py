@@ -15,15 +15,17 @@ class User(AbstractUser):
     last_name = models.CharField(
         'Фамилия', max_length=100, null=True, blank=True)
     user_type = models.IntegerField(
-        verbose_name='Тип пользователя', choices=UserTypeChoices.choices)
-    birth_date = UnixTimeStampField()
+        verbose_name='Тип пользователя', choices=UserTypeChoices.choices, null=True)
+    birth_date = UnixTimeStampField(null=True)
     students_start_age = models.PositiveSmallIntegerField(
         default=1,
-        validators=[MaxValueValidator(100), MinValueValidator(1)]
+        validators=[MaxValueValidator(100), MinValueValidator(1)],
+        null=True
     )
     students_end_age = models.PositiveSmallIntegerField(
         default=1,
-        validators=[MaxValueValidator(100), MinValueValidator(1)]
+        validators=[MaxValueValidator(100), MinValueValidator(1)],
+        null=True
     )
 
     def get_ages_range(self):
