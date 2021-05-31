@@ -1,0 +1,72 @@
+/*@font-face*/
+@font-face {
+    font-family: 'Helvetica Neue';
+    src: url('assets/fonts/HelveticaNeue-Regular/HelveticaNeue.eot');
+    src: url("assets/fonts/HelveticaNeue-Regular/HelveticaNeue.svg") format('svg');
+    src: url("assets/fonts/HelveticaNeue-Regular/HelveticaNeue.ttf") format("truetype");
+    src: url("assets/fonts/HelveticaNeue-Regular/HelveticaNeue.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Museo Sans';
+    src: url("assets/fonts/museo-mans-cyr/museosanscyrl.otf") format("embedded-opentype");
+    src: url("assets/fonts/museo-mans-cyr/museosanscyrl.ttf") format("truetype");
+    src: url("assets/fonts/museo-mans-cyr/museosanscyrl.woff") format("woff");
+    font-weight: 100;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Museo Sans';
+    src: url("assets/fonts/museo-mans-cyr/museosanscyrl_0.otf") format("embedded-opentype");
+    src: url("assets/fonts/museo-mans-cyr/museosanscyrl_0.ttf") format("truetype");
+    src: url("assets/fonts/museo-mans-cyr/museosanscyrl_0.woff") format("woff");
+    font-weight: 300;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Museo Sans';
+    src: url("assets/fonts/museo-mans-cyr/museosanscyrl_1.otf") format("embedded-opentype");
+    src: url("assets/fonts/museo-mans-cyr/museosanscyrl_1.ttf") format("truetype");
+    src: url("assets/fonts/museo-mans-cyr/museosanscyrl_1.woff") format("woff");
+    font-weight: 500;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Museo Sans';
+    src: url("assets/fonts/museo-mans-cyr/museosanscyrl_2.otf") format("embedded-opentype");
+    src: url("assets/fonts/museo-mans-cyr/museosanscyrl_2.ttf") format("truetype");
+    src: url("assets/fonts/museo-mans-cyr/museosanscyrl_2.woff") format("woff");
+    font-weight: 700;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Museo Sans';
+    src: url("assets/fonts/museo-mans-cyr/museosanscyrl_3.otf") format("embedded-opentype");
+    src: url("assets/fonts/museo-mans-cyr/museosanscyrl_3.ttf") format("truetype");
+    src: url("assets/fonts/museo-mans-cyr/museosanscyrl_3.woff") format("woff");
+    font-weight: 900;
+    font-style: normal;
+}
+/*@font-face end*/
+
+body {
+    font-family: "Museo Sans", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: #464646;
+
+    a {
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+}
+.global-wrapper {
+  margin: 0 auto;
+  max-width: 1920px;
+  width: 100%;  
+  background-color: #f6f7f2;
+}
