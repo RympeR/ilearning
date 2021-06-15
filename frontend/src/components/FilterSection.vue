@@ -1,5 +1,9 @@
 <template>
-    <span @click="toogle" :class="{rotate:isExpand}">{{ title }}</span>
+  <div>
+    <span class="title" @click="toogle" :class="{rotate:isExpand}">{{ title }}</span>
+    <span class="loading" v-if="isExpand && isLoading">
+      <img src="@/assets/img/loading.gif">
+    </span>
     <ul v-if="isExpand">
       <li v-for="item in items" :key="item.id">
         <label class="checkbox">
@@ -14,6 +18,7 @@
         </label>
       </li>
     </ul>
+  </div>
 </template>
 
 <script>
@@ -22,12 +27,16 @@ export default {
   props: ['title', 'apiUrl'],
   data: () => ({
     items: [],
-    isExpand: false
+    isExpand: false,
+    isLoading: true
   }),
   mounted() {
     axios
       .get(this.apiUrl)
-      .then(response => (this.items = response.data.results))
+      .then(response => {
+        this.items = response.data.results
+        this.isLoading = false
+      })
   },
   methods: {
     toogle() {

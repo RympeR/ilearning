@@ -1,4 +1,5 @@
 <template>
+<div>
   <div class="global-wrapper">
     <header>
       <div class="header-wrap">
@@ -33,9 +34,9 @@
                 <div class="lk-switcher switcher">
                   <ul class="switch-arrow">
                     <li>
-                      <a href="/login" class="enter-lk">Log&nbsp;In</a>
-                      <!--a href="" class="lk-admin">Личный кабинет</a>
-                      <ul>
+                      <a href="#" v-if="!IS_LOGGED_IN" class="enter-lk" @click.prevent="showLogin">Log&nbsp;In</a>
+                      <a href="" v-if="IS_LOGGED_IN" class="lk-admin">Личный кабинет</a>
+                      <ul v-if="IS_LOGGED_IN">
                         <li><a href="">user@user.com</a></li>
                         <li><a class="disabled" href="">Настройки</a></li>
                         <li><a class="disabled" href="">Мои занятия</a></li>
@@ -44,8 +45,8 @@
                         <li><a href="">Мои покупки</a></li>
                         <li><a class="disabled" href="">Уведомления</a></li>
                         <li><a class="disabled" href="">Сообщения</a></li>
-                        <li><a href="">Logout</a></li>
-                      </ul-->
+                        <li><a href="" @click.prevent="doLogout">Logout</a></li>
+                      </ul>
                     </li>
                   </ul>
                 </div>
@@ -146,15 +147,37 @@
       </section>
     </footer>
   </div>
+  <AuthDialogs />
+</div>
 </template>
 
 <script>
 import HeaderMenu from '@/components/HeaderMenu'
 import FooterMenu from '@/components/FooterMenu'
+import AuthDialogs from '@/components/Auth/AuthDialogs'
+import {mapGetters, mapActions} from 'vuex'
+
 export default {
   name: 'main-layout',
   components: {
-    HeaderMenu, FooterMenu
+    HeaderMenu, FooterMenu, AuthDialogs
+  },
+  computed: {
+    ...mapGetters([
+      'POPUP_STATE', 'IS_LOGGED_IN'
+    ])
+  },
+  methods: {
+    ...mapActions([
+      'TOOGLE_POPUP', 'SET_POPUP_CONTENT', 'LOGOUT'
+    ]),
+    showLogin() {
+      this.SET_POPUP_CONTENT('login')
+      this.TOOGLE_POPUP()
+    },
+    doLogout() {
+      this.LOGOUT()
+    }
   }
 }
 </script>

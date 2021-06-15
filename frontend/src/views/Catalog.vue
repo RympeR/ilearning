@@ -8,7 +8,7 @@
         <aside class="sidebar-filter col-lg-3 col-md-6">
           <ul class="filter-list">
             <li v-for="(section, index) in sections" :key="index">
-              <FilterSection :title="section.title" :apiUrl="section.apiurl" />
+              <FilterSection :title="section.title" :apiUrl="host + section.apiurl" />
             </li>
           </ul>
         </aside>
@@ -31,30 +31,31 @@ import axios from 'axios'
 export default {
   name: 'main-layout',
   data: () => ({
+    host: process.env.VUE_APP_BACKEND_HOST,
     sections: [
       {
         title: 'By Type of Activity',
-        apiurl: 'https://ilearning.tools/info/task-types-list/'
+        apiurl: '/info/task-types-list/'
       },
       {
         title: 'By Grade',
-        apiurl: 'https://ilearning.tools/info/learning-range-list/'
+        apiurl: '/info/learning-range-list/'
       },
       {
         title: 'By Subject',
-        apiurl: 'https://ilearning.tools/info/learning-subjects-list/'
+        apiurl: '/info/learning-subjects-list/'
       },
       {
         title: 'By Topic',
-        apiurl: 'https://ilearning.tools/info/lesson-theme-list/'
+        apiurl: '/info/lesson-theme-list/'
       },
       {
         title: 'By Type of Game',
-        apiurl: 'https://ilearning.tools/info/lesson-type-list/'
+        apiurl: '/info/lesson-type-list/'
       },
       {
         title: 'By Cognitive Process',
-        apiurl: 'https://ilearning.tools/info/education-process-list/'
+        apiurl: '/info/education-process-list/'
       }
     ],
     items: []
@@ -64,8 +65,63 @@ export default {
   },
   mounted() {
     axios
-      .get('https://ilearning.tools/lessons/card-list/')
+      .get(this.host + '/lessons/card-list/')
       .then(response => (this.items = response.data.results))
   }
 }
 </script>
+
+<style lang="scss">
+.filter-list {
+  padding-right: 30px;
+  span.title {
+    font-size: 18px;
+    font-weight: 700;
+    display: block;
+    cursor: pointer;
+    position: relative;
+
+    &:after {
+      position: absolute;
+      content: '';
+      right: 2px;
+      top: 7px;
+      width: 10px;
+      height: 10px;
+      border-right: 4px solid #464646;
+      border-bottom: 4px solid #464646;
+      -webkit-transform: rotate(-45deg);
+      -ms-transform: rotate(-45deg);
+      transform: rotate(-45deg);
+      transition: 0.4s;
+    }
+
+    &.rotate:after {
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+    }
+  }
+  span.loading {
+    img {
+      width: 10%;
+      margin: 10px auto;
+      display: block;
+    }
+  }
+  ul {
+    ul {
+      padding-left: 23px;
+    }
+  }
+  > li {
+    padding: 13px 0;
+    border-top: 1px solid rgba(70,70,70, 0.25);
+    div {
+      > ul {
+        margin-top: 20px;
+      }
+    }
+  }
+}
+</style>
