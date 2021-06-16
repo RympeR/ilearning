@@ -48,7 +48,7 @@ export default createStore({
         });
         axios.post(process.env.VUE_APP_BACKEND_HOST + '/auth/token/login/', formData)
         .then(response => {
-            const token = response.data.token;
+            const token = response.data.auth_token
             localStorage.setItem('token', token);
             axios.defaults.headers.common['Authorization'] = token;
             commit('AUTH_SUCCESS', token);
