@@ -68,7 +68,7 @@ class Card(models.Model):
     published = models.BooleanField(verbose_name='Опубликовано', default=False)
 
     def admin_photo(self):
-        if hasattr(self.preview, 'url') and self.preview:
+        if self.preview and hasattr(self.preview, 'url'):
             return mark_safe('<img src="{}" width="100" /'.format(self.preview.url))
         return None
 
