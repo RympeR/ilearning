@@ -41,21 +41,21 @@ class CardGetSerializer(serializers.ModelSerializer):
 
     def get_preview(self, attachemnt):
         request = self.context.get('request')
-        if getattr(attachemnt.preview, 'url'):
+        if attachemnt.preview and getattr(attachemnt.preview, 'url'):
             file_url = attachemnt.preview.url
             return request.build_absolute_uri(file_url)
         return None
 
     def get_attachment(self, attachemnt):
         request = self.context.get('request')
-        if getattr(attachemnt.attachemnt, 'url'):
+        if attachemnt.attachemnt and getattr(attachemnt.attachemnt, 'url'):
             file_url = attachemnt.attachment.url
             return request.build_absolute_uri(file_url)
         return None
 
     def get_video(self, attachemnt):
         request = self.context.get('request')
-        if getattr(attachemnt.video, 'url'):
+        if attachemnt.video and getattr(attachemnt.video, 'url'):
             file_url = attachemnt.video.url
             return request.build_absolute_uri(file_url)
         return None
