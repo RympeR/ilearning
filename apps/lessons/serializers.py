@@ -220,7 +220,7 @@ class CollectionCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Collection
-        exclude = ('user', )
+        fields = '__all__'
 
     def validate(self, attrs):
         request = self.context.get('request')
@@ -238,7 +238,7 @@ class CollectionPartialSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Collection
-        exclude = ('user', )
+        fields = '__all__'
 
     def validate(self, attrs):
         request = self.context.get('request')
