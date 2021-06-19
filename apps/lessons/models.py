@@ -43,13 +43,15 @@ class Card(models.Model):
     price = models.FloatField('Цена')
     valute = models.CharField(verbose_name='Валюта',
                               max_length=3, choices=VALUTE_CHOICES)
+    language = models.CharField(verbose_name='Язык',
+                                max_length=2, choices=LANGUAGE_CHOICES, default='UK')
     attachment = models.FileField(
         verbose_name='Вложение', upload_to=card_attachment, blank=True, null=True)
     video = models.FileField(verbose_name='Вложенное видео',
                              upload_to=card_attachment, blank=True, null=True)
     hosting_url = models.URLField(
         verbose_name='Ссылка на видеохостинге', blank=True, null=True)
-    accessory_level = models.CharField(
+    accessory_level = models.IntegerField(
         'Уровень доступа', choices=AcessoryLevel.choices, max_length=10)
     learning_range = models.ManyToManyField(
         LearningRange, verbose_name='Периоды обучения', related_name='card_leargning_range')
@@ -66,7 +68,7 @@ class Card(models.Model):
     published = models.BooleanField(verbose_name='Опубликовано', default=False)
 
     def admin_photo(self):
-        if hasattr(self.preview, 'url'):
+        if hasattr(self.preview, 'url') and self.preview:
             return mark_safe('<img src="{}" width="100" /'.format(self.preview.url))
         return None
 

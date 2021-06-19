@@ -35,7 +35,15 @@ class UserRetrieveAPI(generics.RetrieveAPIView):
         return self.request.user
 
 
-class UserAPI(generics.RetrieveUpdateDestroyAPIView):
+class UserUpdateAPI(generics.UpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserPartialSerializer
+
+    def get_object(self):
+        return self.request.user
+
+
+class UserDeleteAPI(generics.DestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserGetSerializer
 
@@ -59,7 +67,7 @@ class PaymentCreateAPI(generics.CreateAPIView):
     serializer_class = PaymentCreateSerializer
 
 
-class PaymentRetrieveAPI(generics.RetrieveDestroyAPIView):
+class PaymentRetrieveAPI(generics.RetrieveAPIView):
     queryset = Payment.objects.all()
     serializer_class = PaymentGetSerializer
 
