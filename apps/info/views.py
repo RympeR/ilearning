@@ -58,3 +58,6 @@ class AttachmentListAPI(generics.ListAPIView):
     permission_classes = (permissions.AllowAny, )
     queryset = Attachment.objects.all()
     serializer_class = AttachmentGetSerializer
+
+    def get_serializer_context(self):
+        return {'request': self.request}

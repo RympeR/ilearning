@@ -24,6 +24,9 @@ from .serializers import (
     PlanCreateSerializer,
     CollectionGetSerializer,
     CollectionCreateSerializer,
+    GroupPartialSerializer,
+    PlanPartialSerializer,
+    CollectionPartialSerializer,
 )
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import UpdateModelMixin
@@ -34,11 +37,17 @@ class CardListAPI(generics.ListAPIView):
     queryset = Card.objects.all()
     serializer_class = CardGetSerializer
 
+    def get_serializer_context(self):
+        return {'request': self.request}
+
 
 class CardRetrieveAPI(generics.RetrieveAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     queryset = Card.objects.all()
     serializer_class = CardGetSerializer
+
+    def get_serializer_context(self):
+        return {'request': self.request}
 
 
 class CardFilteredAPI(APIView):
@@ -54,10 +63,15 @@ class PurchasedCardCreateAPI(generics.CreateAPIView):
     queryset = PurchasedCard.objects.all()
     serializer_class = PurchasedCardCreateSerializer
 
+    def get_serializer_context(self):
+        return {'request': self.request}
 
 class PurchasedCardListAPI(generics.ListAPIView):
     queryset = PurchasedCard.objects.all()
     serializer_class = PurchasedCardGetSerializer
+
+    def get_serializer_context(self):
+        return {'request': self.request}
 
     def get_queryset(self):
         return PurchasedCard.objects.filter(user=self.request.user)
@@ -80,18 +94,27 @@ class GroupCreateAPI(generics.CreateAPIView):
     queryset = Group.objects.all()
     serializer_class = GroupCreateSerializer
 
+    def get_serializer_context(self):
+        return {'request': self.request}
+
 
 class GroupPartialUpdateView(GenericAPIView, UpdateModelMixin):
     queryset = Group.objects.all()
-    serializer_class = GroupCreateSerializer
+    serializer_class = GroupPartialSerializer
 
     def put(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
+
+    def get_serializer_context(self):
+        return {'request': self.request}
 
 
 class GroupDestroyAPI(generics.DestroyAPIView):
     queryset = Group.objects.all()
     serializer_class = GroupCreateSerializer
+
+    def get_serializer_context(self):
+        return {'request': self.request}
 
 
 class CollectionListAPI(generics.ListAPIView):
@@ -111,18 +134,27 @@ class CollectionCreateAPI(generics.CreateAPIView):
     queryset = Group.objects.all()
     serializer_class = CollectionCreateSerializer
 
+    def get_serializer_context(self):
+        return {'request': self.request}
+
 
 class CollectionPartialUpdateView(GenericAPIView, UpdateModelMixin):
     queryset = Group.objects.all()
-    serializer_class = CollectionCreateSerializer
+    serializer_class = CollectionPartialSerializer
 
     def put(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
+
+    def get_serializer_context(self):
+        return {'request': self.request}
 
 
 class CollectionDestroyAPI(generics.DestroyAPIView):
     queryset = Collection.objects.all()
     serializer_class = CollectionCreateSerializer
+
+    def get_serializer_context(self):
+        return {'request': self.request}
 
 
 class PlanListAPI(generics.ListAPIView):
@@ -142,18 +174,27 @@ class PlanCreateAPI(generics.CreateAPIView):
     queryset = Plan.objects.all()
     serializer_class = PlanCreateSerializer
 
+    def get_serializer_context(self):
+        return {'request': self.request}
+
 
 class PlanDestroyAPI(generics.DestroyAPIView):
     queryset = Plan.objects.all()
     serializer_class = PlanCreateSerializer
 
+    def get_serializer_context(self):
+        return {'request': self.request}
+
 
 class PlanPartialUpdateView(GenericAPIView, UpdateModelMixin):
     queryset = Plan.objects.all()
-    serializer_class = PlanCreateSerializer
+    serializer_class = PlanPartialSerializer
 
     def put(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
+
+    def get_serializer_context(self):
+        return {'request': self.request}
 
 
 class PlanCardListAPI(generics.ListAPIView):
@@ -177,11 +218,3 @@ class PlanCardCreateAPI(generics.CreateAPIView):
 class PlanCardDestroyAPI(generics.DestroyAPIView):
     queryset = PlanCard.objects.all()
     serializer_class = PlanCardCreateSerializer
-
-
-class PlanPartialUpdateView(GenericAPIView, UpdateModelMixin):
-    queryset = Plan.objects.all()
-    serializer_class = PlanCreateSerializer
-
-    def put(self, request, *args, **kwargs):
-        return self.partial_update(request, *args, **kwargs)

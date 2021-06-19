@@ -11,6 +11,7 @@ from apps.info.serializers import (
 from apps.users.serializers import (
     UserGetSerializer
 )
+from apps.users.models import User
 from .models import (
     Card,
     PurchasedCard,
@@ -75,7 +76,7 @@ class PurchasedCardCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = PurchasedCard
         exclude = ('user', )
-    
+
     def validate(self, attrs):
         request = self.context.get('request')
         user = request.user
@@ -96,8 +97,26 @@ class GroupCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Group
-        exclude = ('user', )
-    
+        fields = '__all__'
+
+    def validate(self, attrs):
+        request = self.context.get('request')
+        user = request.user
+        attrs['user'] = user
+        return attrs
+
+
+class GroupPartialSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(required=False)
+    user = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all(), required=False)
+    duration = serializers.CharField(required=False)
+    age = serializers.CharField(required=False)
+
+    class Meta:
+        model = Group
+        fields = '__all__'
+
     def validate(self, attrs):
         request = self.context.get('request')
         user = request.user
@@ -146,8 +165,28 @@ class PlanCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Plan
-        exclude = ('user', )
-    
+        fields = '__all__'
+
+    def validate(self, attrs):
+        request = self.context.get('request')
+        user = request.user
+        attrs['user'] = user
+        return attrs
+
+
+class PlanPartialSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(required=False)
+    user = serializers.PrimaryKeyRelatedField(
+        required=False, queryset=User.objects.all())
+    cards = serializers.PrimaryKeyRelatedField(
+        required=False, queryset=Card.objects.all(), many=True)
+    groups = serializers.PrimaryKeyRelatedField(
+        required=False, queryset=Group.objects.all(), many=True)
+
+    class Meta:
+        model = Plan
+        fields = '__all__'
+
     def validate(self, attrs):
         request = self.context.get('request')
         user = request.user
@@ -178,6 +217,24 @@ class CollectionGetSerializer(serializers.ModelSerializer):
 
 
 class CollectionCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Collection
+        exclude = ('user', )
+
+    def validate(self, attrs):
+        request = self.context.get('request')
+        user = request.user
+        attrs['user'] = user
+        return attrs
+
+
+class CollectionPartialSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(required=False)
+    user = serializers.PrimaryKeyRelatedField(
+        required=False, queryset=User.objects.all())
+    cards = serializers.PrimaryKeyRelatedField(
+        required=False, queryset=Card.objects.all(), many=True)
 
     class Meta:
         model = Collection

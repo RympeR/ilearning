@@ -31,6 +31,13 @@ class UserGetSerializer(serializers.ModelSerializer):
 
 
 class UserPartialSerializer(serializers.ModelSerializer):
+    username = serializers.EmailField(required=False)
+    name = serializers.CharField(required=False)
+    last_name = serializers.CharField(required=False)
+    user_type = serializers.IntegerField(required=False)
+    birth_date = serializers.DateTimeField(required=False)
+    students_start_age = serializers.IntegerField(required=False)
+    students_end_age = serializers.IntegerField(required=False)
 
     class Meta:
         model = User
@@ -48,7 +55,7 @@ class PaymentCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Payment
-        fields = 'amount', 
+        fields = 'amount',
 
     def validate(self, attrs):
         request = self.context.get('request')
