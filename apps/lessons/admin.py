@@ -1,5 +1,8 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 from mptt.admin import TreeRelatedFieldListFilter
+from django.http import HttpResponseRedirect
+from django.urls import reverse, reverse_lazy
+from admin_actions.admin import ActionsModelAdmin
 from .models import (
     Card,
     PurchasedCard,
@@ -9,6 +12,12 @@ from .models import (
     PlanCard,
     Handbook,
 )
+
+
+def set_value(card: Card, value: bool, request):
+    card.published = value
+    card.save()
+    return HttpResponseRedirect(reverse_lazy('admin:lessons_card_changelist'), request)
 
 
 @admin.register(Handbook)
@@ -39,7 +48,7 @@ class PlanCardAdmin(admin.ModelAdmin):
         'card',
         'order'
     )
-    list_filter = 'plan', 
+    list_filter = 'plan',
     search_fields = ('plan__name', 'card__name')
 
 
@@ -51,7 +60,7 @@ class CollectionAdmin(admin.ModelAdmin):
         'user',
         'get_collection_cards'
     )
-    list_display_links = 'name', 
+    list_display_links = 'name',
     search_fields = ('user__username', 'name', 'cards__name')
     filter_horizontal = 'cards',
 
@@ -65,7 +74,7 @@ class PlanAdmin(admin.ModelAdmin):
         'get_plan_cards',
         'get_plan_groups'
     )
-    list_display_links = 'name', 
+    list_display_links = 'name',
     search_fields = ('user__username', 'cards__name', 'name')
     filter_horizontal = (
         'cards',
@@ -91,12 +100,12 @@ class GroupAdmin(admin.ModelAdmin):
         'user',
         'duration'
     )
-    list_display_links = 'name', 
+    list_display_links = 'name',
     search_fields = ('name', 'user__username', 'card__name')
 
 
 @admin.register(Card)
-class CardAdmin(admin.ModelAdmin):
+class CardAdmin(ActionsModelAdmin):
     list_per_page = 50
     list_display = (
         'admin_photo',
@@ -128,3 +137,31 @@ class CardAdmin(admin.ModelAdmin):
         'education_process',
         'favourites'
     )
+    actions_row = actions_detail = 'publish_card', 'hide_card',
+
+    def publish_card(self, request, pk):
+        card = Card.objects.get(pk=pk)
+        if card.published:
+            messages.error(
+                request, 'Карточка уже опубликована')
+            return HttpResponseRedirect(reverse_lazy('admin:lessons_card_changelist'), request)
+        else:
+            messages.success(
+                request, 'Карточка опубликована')
+            return set_value(card, True, request)
+
+    def hide_card(self, request, pk):
+        card = Card.objects.get(pk=pk)
+        if not card.published:
+            messages.error(
+                request, 'Карточка уже спрятана')
+            return HttpResponseRedirect(reverse_lazy('admin:lessons_card_changelist'), request)
+        else:
+            messages.success(
+                request, 'Карточка спрятана')
+            return set_value(card, False, request)
+
+    publish_card.short_description = 'Опубликовать'
+    publish_card.url_path = 'publish-card'
+    hide_card.short_description = 'Спрятать'
+    hide_card.url_path = 'hide-card'
