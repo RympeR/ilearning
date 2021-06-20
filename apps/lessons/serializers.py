@@ -11,7 +11,10 @@ from apps.info.serializers import (
 from apps.users.serializers import (
     UserGetSerializer
 )
-from apps.users.models import User
+from apps.users.models import (
+    User,
+    Subscription,
+)
 from .models import (
     Card,
     PurchasedCard,
@@ -20,6 +23,8 @@ from .models import (
     Collection,
     PlanCard,
 )
+from django.utils import timezone
+from datetime import datetime, timedelta
 
 
 class CardGetSerializer(serializers.ModelSerializer):
@@ -33,11 +38,43 @@ class CardGetSerializer(serializers.ModelSerializer):
     education_process = EducationProcessesGetSerializer(
         required=False, many=True)
     images = AttachmentGetSerializer(required=False, many=True)
+    bought = serializers.SerializerMethodField(required=False)
+    favourite = serializers.SerializerMethodField(required=False)
     hosting_url = serializers.URLField(required=False)
 
     class Meta:
         model = Card
         fields = '__all__'
+
+    def get_favourite(self, card: Card):
+        request = self.context.get('request')
+        user = request.user
+        if user in card.favourites.all():
+            return True
+        return False
+
+    def get_bought(self, card: Card):
+        request = self.context.get('request')
+        user = request.user
+        if card.accessory_level == 1:
+            purchased_card = PurchasedCard.objects.filter(
+                user=user,
+                card=card
+            )
+            if purchased_card.exists():
+                return True
+            return False
+
+        elif card.accessory_level == 2:
+            subs = Subscription.objects.filter(
+                user=user,
+                end_date__gte=(timezone.now())
+            )
+            print(subs)
+            if subs.exists():
+                return True
+            return False
+        return ...
 
     def get_preview(self, attachemnt):
         request = self.context.get('request')
