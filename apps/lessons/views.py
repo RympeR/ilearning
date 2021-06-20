@@ -47,20 +47,31 @@ from rest_framework.mixins import UpdateModelMixin
 def filter_related_objects(queryset, name, value, model, serializer, related_category):
     lookup = '__'.join([name, 'in'])
     if value:
-        subjects = model.objects.get(pk=value[0].pk)
+        subjects = model.objects.filter(pk__in=[obj.pk for obj in value])
         look_related = '__'.join([related_category, 'gte'])
-        hole_tree = model.objects.filter(
-            Q(tree_id=subjects.tree_id) &
-            Q(**{look_related: getattr(subjects, related_category)}) &
-            Q(display=True)
-        )
-        values = [serializer(
-            instance=subj).data['id'] for subj in hole_tree]
+        result = []
+        for subj in subjects:
+            hole_tree = model.objects.filter(
+                Q(tree_id=subj.tree_id) &
+                Q(**{look_related: getattr(subj, related_category)}) &
+                Q(display=True)
+            )
+            values = [serializer(
+                instance=subject).data['id'] for subject in hole_tree]
+            result.append(values)
+        values = result
     else:
         subjects = model.objects.filter(display=True)
         values = [serializer(
-            instance=subj).data['id'] for subj in subjects]
-    return queryset.filter(**{lookup: values}).distinct()
+            instance=subject).data['id'] for subject in subjects]
+    res = []
+    for value in values:
+        if isinstance(value, list):
+            res.extend(value)
+        else:
+            res.append(value)
+
+    return queryset.filter(**{lookup: res}).distinct()
 
 
 class CardFilter(filters.FilterSet):
