@@ -31,9 +31,9 @@ class Card(models.Model):
     name = models.CharField('Название карточки', max_length=100)
     slug = models.SlugField('Слаг')
     card_type = models.ForeignKey(
-        TaskTypes, verbose_name='card_type', related_name='card_type', on_delete=models.DO_NOTHING, null=True, blank=True)
+        TaskTypes, verbose_name='Тип материала', related_name='card_type', on_delete=models.DO_NOTHING, null=True, blank=True)
     images = models.ManyToManyField(
-        Attachment, related_name='card_image_attachments', blank=True)
+        Attachment, related_name='card_image_attachments', blank=True, verbose_name='Вложенные изображения')
     preview = models.ImageField(
         verbose_name='Превью карточки', upload_to=card_attachment, blank=True, null=True)
     short_description = HTMLField(
@@ -52,15 +52,15 @@ class Card(models.Model):
     hosting_url = models.URLField(
         verbose_name='Ссылка на видеохостинге', blank=True, null=True)
     accessory_level = models.IntegerField(
-        'Уровень доступа', choices=AcessoryLevel.choices, max_length=10)
+        'Уровень доступа', choices=AcessoryLevel.choices)
     learning_range = models.ManyToManyField(
         LearningRange, verbose_name='Периоды обучения', related_name='card_leargning_range')
     learning_themes = models.ManyToManyField(
-        LessonTheme, verbose_name='Темы занятия', related_name='card_leargning_theme')
+        LessonTheme, verbose_name='Темы занятий', related_name='card_leargning_theme')
     learning_subjects = models.ManyToManyField(
-        LearningSubjects, verbose_name='Предметы карточки', related_name='card_leargning_subjects')
+        LearningSubjects, verbose_name='Предметы обучения', related_name='card_leargning_subjects')
     learning_types = models.ManyToManyField(
-        LessonTypes, verbose_name='Виды задания ', related_name='card_leargning_type')
+        LessonTypes, verbose_name='Типы заданий ', related_name='card_leargning_type')
     education_process = models.ManyToManyField(
         EducationProcesses, verbose_name='Познавательные процессы', related_name='card_education_process')
     favourites = models.ManyToManyField(

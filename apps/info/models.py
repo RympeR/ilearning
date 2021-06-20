@@ -36,8 +36,8 @@ class TaskTypes(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = 'Тип задания'
-        verbose_name_plural = 'Типы заданий'
+        verbose_name = 'Тип материала'
+        verbose_name_plural = 'Типы материалов'
 
 
 class LearningRange(models.Model):
@@ -51,7 +51,7 @@ class LearningRange(models.Model):
 
     class Meta:
         verbose_name = 'Период обучения'
-        verbose_name_plural = 'Период обучения'
+        verbose_name_plural = 'Периоды обучения'
 
 
 class LearningSubjects(MPTTModel):
@@ -90,8 +90,8 @@ class LessonTheme(MPTTModel):
         level_attr = 'Подкатегория темы занятия'
 
     class Meta:
-        verbose_name = 'Тема урока'
-        verbose_name_plural = 'Темы уроков'
+        verbose_name = 'Тема занятия'
+        verbose_name_plural = 'Темы занятий'
 
 
 class LessonTypes(MPTTModel):
@@ -111,7 +111,7 @@ class LessonTypes(MPTTModel):
 
     class Meta:
         verbose_name = 'Тип игры'
-        verbose_name_plural = 'Типы игры'
+        verbose_name_plural = 'Типы игр'
 
 
 class EducationProcesses(MPTTModel):

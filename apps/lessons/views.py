@@ -1,8 +1,20 @@
+from django_filters.rest_framework import filterset
+from django.db.models import Q
 from rest_framework import generics, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from apps.utils.default_responses import (
-    api_not_implemented_501
+from django_filters import rest_framework as filters
+from apps.info.models import (
+    LearningSubjects,
+    LessonTheme,
+    LessonTypes,
+    EducationProcesses,
+)
+from apps.info.serializers import (
+    LearningSubjectsGetSerializer,
+    LessonThemeGetSerializer,
+    LessonTypesGetSerializer,
+    EducationProcessesGetSerializer,
 )
 from .models import (
     Card,
@@ -32,6 +44,82 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import UpdateModelMixin
 
 
+def filter_related_objects(queryset, name, value, model, serializer, related_category):
+    lookup = '__'.join([name, 'in'])
+    if value:
+        subjects = model.objects.get(pk=value[0].pk)
+        look_related = '__'.join([related_category, 'gte'])
+        hole_tree = model.objects.filter(
+            Q(tree_id=subjects.tree_id) &
+            Q(**{look_related: getattr(subjects, related_category)}) &
+            Q(display=True)
+        )
+        values = [serializer(
+            instance=subj).data['id'] for subj in hole_tree]
+    else:
+        subjects = model.objects.filter(display=True)
+        values = [serializer(
+            instance=subj).data['id'] for subj in subjects]
+    return queryset.filter(**{lookup: values}).distinct()
+
+
+class CardFilter(filters.FilterSet):
+    name = filters.CharFilter(lookup_expr='icontains')
+    price = filters.NumberFilter(lookup_expr='lte')
+    learning_subjects = filters.ModelMultipleChoiceFilter(
+        lookup_expr='in',
+        queryset=LearningSubjects.objects.all(),
+        field_name='learning_subjects',
+        method='filter_learning_subjects'
+    )
+    learning_themes = filters.ModelMultipleChoiceFilter(
+        lookup_expr='in',
+        queryset=LessonTheme.objects.all(),
+        field_name='learning_themes',
+        method='filter_learning_themes'
+    )
+    learning_types = filters.ModelMultipleChoiceFilter(
+        lookup_expr='in',
+        queryset=LessonTypes.objects.all(),
+        field_name='learning_types',
+        method='filter_learning_types'
+    )
+    education_process = filters.ModelMultipleChoiceFilter(
+        lookup_expr='in',
+        queryset=EducationProcesses.objects.all(),
+        field_name='education_process',
+        method='filter_education_process'
+    )
+
+    def filter_learning_subjects(self, queryset, name, value):
+        return filter_related_objects(queryset, name, value, LearningSubjects, LearningSubjectsGetSerializer, 'Подкатегория предмета')
+
+    def filter_learning_themes(self, queryset, name, value):
+        return filter_related_objects(queryset, name, value, LessonTheme, LessonThemeGetSerializer, 'Подкатегория темы занятия')
+
+    def filter_learning_types(self, queryset, name, value):
+        return filter_related_objects(queryset, name, value, LessonTypes, LessonTypesGetSerializer, 'Подкатегория типа занятия')
+
+    def filter_education_process(self, queryset, name, value):
+        return filter_related_objects(queryset, name, value, EducationProcesses, EducationProcessesGetSerializer, 'Подкатегория образовательного процесса')
+
+    class Meta:
+        model = Card
+        fields = (
+            'name',
+            'language',
+            'price',
+            'valute',
+            'card_type',
+            'card_type',
+            'learning_range',
+            'learning_subjects',
+            'learning_themes',
+            'learning_types',
+            'education_process',
+        )
+
+
 class CardListAPI(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     queryset = Card.objects.all()
@@ -50,13 +138,10 @@ class CardRetrieveAPI(generics.RetrieveAPIView):
         return {'request': self.request}
 
 
-class CardFilteredAPI(APIView):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
-
-    def get(self, filters):
-        return api_not_implemented_501(
-            {"status": "i don't fucking wanna do custom filters"}
-        )
+class CardFilteredAPI(generics.ListAPIView):
+    queryset = Card.objects.all()
+    filterset_class = CardFilter
+    serializer_class = CardGetSerializer
 
 
 class PurchasedCardCreateAPI(generics.CreateAPIView):
@@ -65,6 +150,7 @@ class PurchasedCardCreateAPI(generics.CreateAPIView):
 
     def get_serializer_context(self):
         return {'request': self.request}
+
 
 class PurchasedCardListAPI(generics.ListAPIView):
     queryset = PurchasedCard.objects.all()

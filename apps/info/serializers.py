@@ -25,7 +25,7 @@ class LearningRangeGetSerializer(serializers.ModelSerializer):
 
 class LearningSubjectsGetSerializer(serializers.ModelSerializer):
     parent = serializers.PrimaryKeyRelatedField(
-        required=False, queryset=EducationProcesses.objects.all(),)
+        required=False, queryset=LearningSubjects.objects.all(),)
 
     class Meta:
         model = LearningSubjects
@@ -34,7 +34,7 @@ class LearningSubjectsGetSerializer(serializers.ModelSerializer):
 
 class LessonThemeGetSerializer(serializers.ModelSerializer):
     parent = serializers.PrimaryKeyRelatedField(
-        required=False, queryset=EducationProcesses.objects.all(),)
+        required=False, queryset=LessonTheme.objects.all(),)
 
     class Meta:
         model = LessonTheme
@@ -43,7 +43,7 @@ class LessonThemeGetSerializer(serializers.ModelSerializer):
 
 class LessonTypesGetSerializer(serializers.ModelSerializer):
     parent = serializers.PrimaryKeyRelatedField(
-        required=False, queryset=EducationProcesses.objects.all(),)
+        required=False, queryset=LessonTypes.objects.all(),)
 
     class Meta:
         model = LessonTypes
