@@ -70,7 +70,6 @@ class CardGetSerializer(serializers.ModelSerializer):
                 user=user,
                 end_date__gte=(timezone.now())
             )
-            print(subs)
             if subs.exists():
                 return True
             return False
