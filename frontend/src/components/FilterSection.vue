@@ -23,7 +23,9 @@
 
 <script>
 import axios from 'axios'
+
 export default {
+  name: "filter-section",
   props: ['title', 'apiUrl'],
   data: () => ({
     items: [],

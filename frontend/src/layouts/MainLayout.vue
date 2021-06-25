@@ -37,12 +37,12 @@
                       <a href="#" v-if="!IS_LOGGED_IN" class="enter-lk" @click.prevent="showLogin">Log&nbsp;In</a>
                       <a href="" v-if="IS_LOGGED_IN" class="lk-admin">Личный кабинет</a>
                       <ul v-if="IS_LOGGED_IN">
-                        <li><a href="">user@user.com</a></li>
+                        <li><router-link to="/my">{{ GET_USERNAME }}</router-link></li>
                         <li><a class="disabled" href="">Настройки</a></li>
                         <li><a class="disabled" href="">Мои занятия</a></li>
                         <li><a class="disabled" href="">Мои группы</a></li>
-                        <li><a href="">My collections</a></li>
-                        <li><a href="">Мои покупки</a></li>
+                        <li><router-link to="/my/collections">Мои коллекции</router-link></li>
+                        <li><router-link to="/my/purchases">Мои покупки</router-link></li>
                         <li><a class="disabled" href="">Уведомления</a></li>
                         <li><a class="disabled" href="">Сообщения</a></li>
                         <li><a href="" @click.prevent="doLogout">Logout</a></li>
@@ -164,7 +164,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'POPUP_STATE', 'IS_LOGGED_IN'
+      'POPUP_STATE', 'IS_LOGGED_IN', 'GET_USERNAME'
     ])
   },
   methods: {

@@ -14,9 +14,11 @@
         </aside>
         <div class="list-category col-lg-9 col-md-12">
           <div class="category-wrapp">
-            <div class="category-item" v-for="item in items" :key="item.id">
-
-            </div>
+            <Item 
+              v-for="item in items"
+              :key="item.id"
+              :item="item"
+            />
             <p v-if="items.length == 0">No items</p>
           </div>
         </div>
@@ -27,9 +29,11 @@
 
 <script>
 import FilterSection from '@/components/FilterSection'
+import Item from '@/components/Catalog/Item'
 import axios from 'axios'
+
 export default {
-  name: 'main-layout',
+  name: 'catalog',
   data: () => ({
     host: process.env.VUE_APP_BACKEND_HOST,
     sections: [
@@ -61,12 +65,15 @@ export default {
     items: []
   }),
   components: {
-    FilterSection
+    FilterSection, Item
   },
   mounted() {
     axios
-      .get(this.host + '/lessons/card-list/')
-      .then(response => (this.items = response.data.results))
+      .get('/lessons/card-filtered/')
+      .then(response => {
+        this.items = response.data.results
+        console.log(response.data.results)
+      })
   }
 }
 </script>

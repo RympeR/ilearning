@@ -10,7 +10,22 @@ const routes = [
   {
     path: '/catalog',
     name: 'Catalog',
-    component: () => import( '../views/Catalog.vue')
+    component: () => import( '@/views/Catalog.vue')
+  },
+  {
+    path: '/my',
+    name: 'profile',
+    component: () => import( '@/views/Profile.vue')
+  },
+  {
+    path: '/my/collections',
+    name: 'collections',
+    component: () => import( '@/views/Collections.vue')
+  },
+  {
+    path: '/my/purchases',
+    name: 'purchases',
+    component: () => import( '@/views/Purchases.vue')
   }
 ]
 

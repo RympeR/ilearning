@@ -7,7 +7,7 @@
         <div class="popup-content">
           <h2>{{ title }}</h2>
           <slot></slot>
-          <div class="notification-message"></div>
+          <div class="notification-message">{{GET_ERROR}}</div>
         </div>
 
       </div>
@@ -23,7 +23,7 @@ export default {
   props: ['title'],
   computed: {
     ...mapGetters([
-      'POPUP_STATE'
+      'POPUP_STATE', 'GET_ERROR'
     ])
   },
   methods: {
@@ -32,6 +32,7 @@ export default {
     ]),
     hidePopup() {
       this.TOOGLE_POPUP()
+      this.$emit('popupClosed')
     }
   }
 }
@@ -79,6 +80,11 @@ export default {
       font-weight: 700;
       color: #464646;
       margin-bottom: 30px;
+    }
+
+    p.success-message {
+      color: #009845;
+      font-size: 20px;
     }
 
     .fields {
@@ -166,6 +172,13 @@ export default {
       .disable_popup {
         float: right;
       }
+    }
+
+    .invalid {
+      color: red;
+    }
+    input.invalid {
+      border-color: red;
     }
   }
   .popup-close,

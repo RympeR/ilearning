@@ -1,23 +1,35 @@
 <template>
-  <Popup title="Log&nbsp;In">
-    <form id="formLogin" action="test" method="post">
+  <Popup title="Log&nbsp;In" @popupClosed="v$.$reset()">
+    <form id="formLogin" @submit.prevent="doLogin">
       <div class="fields info_person">
+          <small
+            class="error-message invalid"
+            v-if="v$.username.$dirty && v$.username.required.$invalid"
+          >
+            Поле "Логин" не должно быть пустым
+          </small>
           <input
-              v-model="email"
-              type="email"
+              v-model.trim="username"
+              type="text"
               class="login_name"
-              name="email"
+              :class="{ invalid: v$.username.$dirty && v$.username.required.$invalid }"
+              name="username"
               placeholder="Username"
-              required
               autofocus
           />
+          <small
+            class="error-message invalid"
+            v-if="v$.password.$dirty && v$.password.required.$invalid"
+          >
+            Поле "Пароль" не должно быть пустым
+          </small>
           <input
-              v-model="password"
+              v-model.trim="password"
               type="password"
               class="login_pass"
+              :class="{ invalid: v$.password.$dirty && v$.password.required.$invalid}"
               name="password"
               placeholder="Password"
-              required
           />
       </div>
       <div class="alert alert-danger error-message" style="display:none;" role="alert">
@@ -26,7 +38,7 @@
           <a href="" class="popup-return-button" @click.prevent="tooglePopupContent('restore')">Forgot your password?</a>
       </div>
       <div class="register-in">
-          <input type="submit" class="active_popup" value="Log&nbsp;In" @click.prevent="doLogin">
+          <input type="submit" class="active_popup" value="Log&nbsp;In">
           <div>
           <a href="" class="popup-register-button disable_popup" @click.prevent="tooglePopupContent('register')">Sign Up</a>
           </div>
@@ -38,14 +50,21 @@
 <script>
 import Popup from '@/components/Popup'
 import {mapActions} from 'vuex'
+import { required } from '@vuelidate/validators'
+import { useVuelidate } from '@vuelidate/core'
 
 export default {
     name: "login",
-    data() {
-        return {
-            email: '',
-            password: '',
-        }
+    setup: () => ({ v$: useVuelidate() }),
+    data: () => ({
+      username: '',
+      password: ''
+    }),
+    validations () {
+      return {
+        username: {required},
+        password: {required}
+      }
     },
     components: {
       Popup
@@ -58,14 +77,18 @@ export default {
         this.SET_POPUP_CONTENT(content)
       },
       doLogin() {
-        let username = this.email;
+        if (this.v$.$invalid) {
+          this.v$.$touch()
+          return
+        }
+        let username = this.username;
         let password = this.password;
         this.$store.dispatch('LOGIN', {username, password})
           .then(() => {
               this.TOOGLE_POPUP()
           })
-          .catch(response => {
-              console.log(response)
+          .catch(error => {
+              console.log(error.response.data)
           })
       }
     }

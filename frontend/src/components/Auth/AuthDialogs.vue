@@ -1,5 +1,5 @@
 <template>
-<div>
+<div v-if="!IS_LOGGED_IN">
     <Login v-if="POPUP_CONTENT == 'login'" />
     <Register v-if="POPUP_CONTENT == 'register'" />
     <Restore v-if="POPUP_CONTENT == 'restore'" />
@@ -19,7 +19,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'POPUP_CONTENT'
+      'POPUP_CONTENT', 'IS_LOGGED_IN'
     ])
   }
 }
