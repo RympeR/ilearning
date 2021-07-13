@@ -1362,40 +1362,7 @@
     max-width: 100%;
   }
 
-  .type-printable-worksheet {
-    background-color: #37dc74;
-  }
-  .type-video {
-    background-color: #02aaf3;
-  }
-  .type-offline-game {
-    background-color: #fe6440;
-  }
-  .type-arts-and-crafts {
-    background-color: #c866cd;
-  }
-  .type-music {
-    background-color: #0077a2;
-  }
-  .type-science-research {
-    background-color: #630a9a;
-  }
-  .type-workbook {
-    background-color: #fece00;
-  }
-  .type-online-game {
-    background-color: #e4a001;
-  }
-  .type-project {
-    background-color: #e40981;
-  }
-  .type-lapbook {
-    background-color: #009746;
-  }
-  .type-collection {
-    background-color: #2b4898;
-  }
-
+  
   .account-lk {
     padding-top: 65px;
     padding-bottom: 70px;

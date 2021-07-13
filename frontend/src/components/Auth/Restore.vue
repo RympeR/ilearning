@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import Popup from "@/components/Popup"
+import Popup from "@/components/Common/Popup"
 import { required, email } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
 

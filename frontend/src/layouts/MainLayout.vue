@@ -37,12 +37,12 @@
                       <a href="#" v-if="!IS_LOGGED_IN" class="enter-lk" @click.prevent="showLogin">Log&nbsp;In</a>
                       <a href="" v-if="IS_LOGGED_IN" class="lk-admin">Личный кабинет</a>
                       <ul v-if="IS_LOGGED_IN">
-                        <li><router-link to="/my">{{ GET_USERNAME }}</router-link></li>
+                        <li><router-link :to="{name: 'profile'}">{{ GET_USERNAME }}</router-link></li>
                         <li><a class="disabled" href="">Настройки</a></li>
                         <li><a class="disabled" href="">Мои занятия</a></li>
                         <li><a class="disabled" href="">Мои группы</a></li>
-                        <li><router-link to="/my/collections">Мои коллекции</router-link></li>
-                        <li><router-link to="/my/purchases">Мои покупки</router-link></li>
+                        <li><router-link :to="{name: 'collections'}">Мои коллекции</router-link></li>
+                        <li><router-link :to="{name: 'purchases'}">Мои покупки</router-link></li>
                         <li><a class="disabled" href="">Уведомления</a></li>
                         <li><a class="disabled" href="">Сообщения</a></li>
                         <li><a href="" @click.prevent="doLogout">Logout</a></li>
@@ -152,8 +152,8 @@
 </template>
 
 <script>
-import HeaderMenu from '@/components/HeaderMenu'
-import FooterMenu from '@/components/FooterMenu'
+import HeaderMenu from '@/components/Common/HeaderMenu'
+import FooterMenu from '@/components/Common/FooterMenu'
 import AuthDialogs from '@/components/Auth/AuthDialogs'
 import {mapGetters, mapActions} from 'vuex'
 

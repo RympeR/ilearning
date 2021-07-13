@@ -8,7 +8,7 @@
         </div>
 </template>
 
-<style>
+<style scoped>
             html, body {
                 background-color: #fff;
                 color: #636b6f;

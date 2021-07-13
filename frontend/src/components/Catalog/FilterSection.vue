@@ -4,34 +4,25 @@
     <span class="loading" v-if="isExpand && isLoading">
       <img src="@/assets/img/loading.gif">
     </span>
-    <ul v-if="isExpand">
-      <li v-for="item in items" :key="item.id">
-        <label class="checkbox">
-          <a href="#">
-            <input type="checkbox">
-          </a>
-          <div class="check-info">
-            <a href="#">
-              {{ item.name }} (<span>0</span>)
-            </a>
-          </div>
-        </label>
-      </li>
-    </ul>
+    <FilterItems v-if="isExpand" :items="items" :section="section" />
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import FilterItems from '@/components/Catalog/FilterItems.vue'
 
 export default {
   name: "filter-section",
-  props: ['title', 'apiUrl'],
+  props: ['title', 'apiUrl', 'section'],
   data: () => ({
     items: [],
     isExpand: false,
     isLoading: true
   }),
+  components: {
+    FilterItems
+  },
   mounted() {
     axios
       .get(this.apiUrl)
@@ -43,6 +34,18 @@ export default {
   methods: {
     toogle() {
       this.isExpand = !this.isExpand
+    },
+    selectItem(item) {
+      let section = this.section
+      let id = item
+      let checked = false
+      this.items.map(function (item) {
+        if (item.id == id) {
+          item.checked = !item.checked
+          checked = item.checked
+        }
+      })
+      this.$store.dispatch('catalog/CHANGE_FILTER', {section, id, checked})
     }
   }
 }

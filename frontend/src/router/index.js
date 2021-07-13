@@ -10,22 +10,27 @@ const routes = [
   {
     path: '/catalog',
     name: 'Catalog',
-    component: () => import( '@/views/Catalog.vue')
+    component: () => import( '@/views/Catalog/Catalog.vue')
+  },
+  {
+    path: '/catalog/item/:id',
+    name: 'CatalogItem',
+    component: () => import( '@/views/Catalog/Item.vue')
   },
   {
     path: '/my',
     name: 'profile',
-    component: () => import( '@/views/Profile.vue')
+    component: () => import( '@/views/Cabinet/Profile.vue')
   },
   {
     path: '/my/collections',
     name: 'collections',
-    component: () => import( '@/views/Collections.vue')
+    component: () => import( '@/views/Cabinet/Collections.vue')
   },
   {
     path: '/my/purchases',
     name: 'purchases',
-    component: () => import( '@/views/Purchases.vue')
+    component: () => import( '@/views/Cabinet/Purchases.vue')
   }
 ]
 

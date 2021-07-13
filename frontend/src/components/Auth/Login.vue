@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import Popup from '@/components/Popup'
+import Popup from '@/components/Common/Popup'
 import {mapActions} from 'vuex'
 import { required } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
@@ -81,8 +81,8 @@ export default {
           this.v$.$touch()
           return
         }
-        let username = this.username;
-        let password = this.password;
+        let username = this.username
+        let password = this.password
         this.$store.dispatch('LOGIN', {username, password})
           .then(() => {
               this.TOOGLE_POPUP()

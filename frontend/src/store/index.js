@@ -1,6 +1,8 @@
 import { createStore } from 'vuex'
 import axios from 'axios'
 
+import catalog from './modules/catalog'
+
 export default createStore({
   state: {
     isPopupActive: false,
@@ -55,7 +57,7 @@ export default createStore({
             if (user[key]) {
               formData.append(key, user[key])
             }
-        });
+        })
         axios.post('/auth/token/login/', formData)
         .then(response => {
             const token = 'Token ' + response.data.auth_token
@@ -95,7 +97,7 @@ export default createStore({
             if (user[key]) {
               formData.append(key, user[key])
             }
-        });
+        })
         axios.post('/auth/users/', formData)
         .then(response => {
             commit('REGISTER_SUCCESS')
@@ -149,6 +151,7 @@ export default createStore({
     GET_USERNAME: (state) => state.username
   },
   modules: {
+    catalog
   },
   plugins: [
     (store) => {

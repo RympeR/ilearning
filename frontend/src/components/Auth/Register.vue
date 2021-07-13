@@ -89,12 +89,10 @@
 </template>
 
 <script>
-import Popup from "@/components/Popup"
+import Popup from "@/components/Common/Popup"
 import {mapActions} from 'vuex'
 import { required, email } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
-
-const mustBeChecked = (value) => { return value }
 
 export default {
     name: "register",
@@ -109,9 +107,9 @@ export default {
     validations () {
       return {
         username: { required, email },
-        password: {required},
-        age: { required, mustBeChecked },
-        rules: {required, mustBeChecked},
+        password: { required },
+        age: { checked: value => value },
+        rules: { checked: value => value },
       }
     },
     components: {
