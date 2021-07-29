@@ -84,6 +84,11 @@ export default createStore({
           resolve(response)
         })
         .catch(error => {
+          if(error.response.status == '401') {
+            commit('LOGOUT')
+            localStorage.removeItem('token')
+            delete axios.defaults.headers.common['Authorization']
+          }
           commit('AUTH_ERROR', error)
           reject(error)
         })
@@ -136,6 +141,11 @@ export default createStore({
         })
         .catch(error => {
           console.log(error.response.data)
+          if(error.response.status == '401') {
+            commit('LOGOUT')
+            localStorage.removeItem('token')
+            delete axios.defaults.headers.common['Authorization']
+          }
           reject(error)
         })
       })
@@ -144,7 +154,7 @@ export default createStore({
   getters: {
     POPUP_STATE: (state) => state.isPopupActive,
     POPUP_CONTENT: (state) => state.popupContent,
-    IS_LOGGED_IN: state => !!state.token,
+    IS_LOGGED_IN: (state) => !!state.token,
     AUTH_STATUS: (state) => state.status,
     GET_TOKEN: (state) => state.token,
     GET_ERROR: (state) => state.error,
