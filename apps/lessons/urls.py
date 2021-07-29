@@ -28,7 +28,6 @@ from .views import (
 )
 
 urlpatterns = [
-    path('card-list/', CardListAPI.as_view(), name='card-list'),
     path('card-get/<int:pk>', CardRetrieveAPI.as_view(), name='card-get'),
     path('card-filtered/', CardFilteredAPI.as_view(), name='card-filtered'),
     path('purchase-card-create/', PurchasedCardCreateAPI.as_view(), name='purchase-card-create'),

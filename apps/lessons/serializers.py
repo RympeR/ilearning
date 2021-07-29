@@ -48,32 +48,37 @@ class CardGetSerializer(serializers.ModelSerializer):
 
     def get_favourite(self, card: Card):
         request = self.context.get('request')
-        user = request.user
-        if user in card.favourites.all():
-            return True
+        user = None
+        if request.user:
+            user = request.user
+            if user in card.favourites.all():
+                return True
         return False
 
     def get_bought(self, card: Card):
         request = self.context.get('request')
-        user = request.user
-        if card.accessory_level == 1:
-            purchased_card = PurchasedCard.objects.filter(
-                user=user,
-                card=card
-            )
-            if purchased_card.exists():
-                return True
-            return False
+        user = None
+        if request.user:
+            user = request.user
+        if user:
+            if card.accessory_level == 1:
+                purchased_card = PurchasedCard.objects.filter(
+                    user=user,
+                    card=card
+                )
+                if purchased_card.exists():
+                    return True
+                return False
 
-        elif card.accessory_level == 2:
-            subs = Subscription.objects.filter(
-                user=user,
-                end_date__gte=(timezone.now())
-            )
-            if subs.exists():
-                return True
-            return False
-        return ...
+            elif card.accessory_level == 2:
+                subs = Subscription.objects.filter(
+                    user=user,
+                    end_date__gte=(timezone.now())
+                )
+                if subs.exists():
+                    return True
+                return False
+        return False
 
     def get_preview(self, attachemnt):
         request = self.context.get('request')
