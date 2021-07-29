@@ -19,22 +19,13 @@
                 </form>
               </div>
               <div class="search-admin lang col-2 col-md-2 col-lg-1">
-                <div class="lang-switcher switcher">
-                  <ul class="switch-arrow">
-                    <li><a href="">En</a>
-                      <ul>
-                        <li><a href="">Ru</a></li>
-                        <li><a href="">Ua</a></li>
-                      </ul>
-                    </li>
-                  </ul>
-                </div>
+                <LangSelector />
               </div>
               <div class="search-admin col-2 col-md-2 col-lg-1">
                 <div class="lk-switcher switcher">
                   <ul class="switch-arrow">
                     <li>
-                      <a href="#" v-if="!IS_LOGGED_IN" class="enter-lk" @click.prevent="showLogin">Log&nbsp;In</a>
+                      <a href="#" v-if="!IS_LOGGED_IN" class="enter-lk" @click.prevent="showLogin">{{ $t('default.header.login', {space: '&nbsp;'}) }}</a>
                       <a href="" v-if="IS_LOGGED_IN" class="lk-admin">Личный кабинет</a>
                       <ul v-if="IS_LOGGED_IN">
                         <li><router-link :to="{name: 'profile'}">{{ GET_USERNAME }}</router-link></li>
@@ -154,13 +145,14 @@
 <script>
 import HeaderMenu from '@/components/Common/HeaderMenu'
 import FooterMenu from '@/components/Common/FooterMenu'
+import LangSelector from '@/components/Common/LangSelector'
 import AuthDialogs from '@/components/Auth/AuthDialogs'
 import {mapGetters, mapActions} from 'vuex'
 
 export default {
   name: 'main-layout',
   components: {
-    HeaderMenu, FooterMenu, AuthDialogs
+    HeaderMenu, FooterMenu, AuthDialogs, LangSelector
   },
   computed: {
     ...mapGetters([
