@@ -1,6 +1,7 @@
-import { createRouter, createWebHistory } from 'vue-router'
-//import i18n from '../i18n'
-
+import { createLangRouter } from 'vue-lang-router';
+import { createWebHistory } from 'vue-router'
+// import i18n from '../i18n'
+import translations from '../locales'
 const routes = [
   /*{
     path: '/:locale',
@@ -62,9 +63,16 @@ const routes = [
   }
 ]
 
-const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes
-})
+const langRouterOptions = {
+	defaultLanguage: 'en',
+	translations,
+	// localizedURLs,
+};
+const routerOptions = {
+	routes,
+	history: createWebHistory(process.env.BASE_URL),
+};
+
+const router = createLangRouter(langRouterOptions, routerOptions);
 
 export default router

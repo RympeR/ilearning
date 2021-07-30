@@ -23,6 +23,7 @@ from .models import (
     Collection,
     PlanCard,
 )
+from django.contrib.auth.models import AnonymousUser
 from django.utils import timezone
 from datetime import datetime, timedelta
 
@@ -68,7 +69,7 @@ class CardGetSerializer(serializers.ModelSerializer):
                 )
                 if purchased_card.exists():
                     return True
-                return False
+
 
             elif card.accessory_level == 2:
                 subs = Subscription.objects.filter(

@@ -1,10 +1,10 @@
 <template>
 <ul class="switch-arrow">
   <li v-for="link in links" :key="link.url">
-    <router-link :to="link.url" active-class="active">{{link.title}}</router-link>
+    <localized-link :to="link.url" active-class="active">{{link.title}}</localized-link>
     <ul v-if="link.links">
       <li v-for="sublink in link.links" :key="sublink.url">
-        <router-link :to="sublink.url" active-class="active">{{sublink.title}}</router-link>
+        <localized-link :to="sublink.url" active-class="active">{{sublink.title}}</localized-link>
       </li>
     </ul>
   </li>

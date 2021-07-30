@@ -132,7 +132,7 @@ class CardFilter(filters.FilterSet):
 
 
 class CardListAPI(generics.ListAPIView):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+    permission_classes = permissions.AllowAny,
     queryset = Card.objects.all()
     serializer_class = CardGetSerializer
 
@@ -141,7 +141,7 @@ class CardListAPI(generics.ListAPIView):
 
 
 class CardRetrieveAPI(generics.RetrieveAPIView):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+    permission_classes = permissions.AllowAny,
     queryset = Card.objects.all()
     serializer_class = CardGetSerializer
 
@@ -150,7 +150,7 @@ class CardRetrieveAPI(generics.RetrieveAPIView):
 
 
 class CardFilteredAPI(generics.ListAPIView):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+    permission_classes = permissions.AllowAny,
     queryset = Card.objects.all()
     filterset_class = CardFilter
     serializer_class = CardGetSerializer

@@ -6,4 +6,5 @@ import store from './store'
 import "bootstrap"
 import i18n from './i18n'
 
-createApp(App).use(i18n).use(store).use(router).mount('#app')
+createApp(App).use(router).use(i18n).use(store).mount('#app')
+
