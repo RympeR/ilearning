@@ -265,8 +265,8 @@ class CollectionCreateSerializer(serializers.ModelSerializer):
         required=False, queryset=Card.objects.all(), many=True)
     class Meta:
         model = Collection
-        fields = '__all__'
-
+        exclude = 'user',
+        
     def validate(self, attrs):
         request = self.context.get('request')
         user = request.user
