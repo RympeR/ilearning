@@ -237,7 +237,7 @@ class CollectionCreateAPI(generics.CreateAPIView):
 
 
 class CollectionPartialUpdateView(GenericAPIView, UpdateModelMixin):
-    queryset = Group.objects.all()
+    queryset = Collection.objects.all()
     serializer_class = CollectionPartialSerializer
 
     def put(self, request, *args, **kwargs):
