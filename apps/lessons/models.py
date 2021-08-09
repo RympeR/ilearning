@@ -167,9 +167,9 @@ class Plan(models.Model):
 class Collection(models.Model):
     name = models.CharField('Название коллекции', max_length=100)
     user = models.ForeignKey(
-        User, related_name='user_collection', verbose_name='Создатель', on_delete=models.CASCADE)
+        User, related_name='user_collection', verbose_name='Создатель', null=True, on_delete=models.CASCADE)
     cards = models.ManyToManyField(
-        Card, verbose_name='Карточки в коллекции', related_name='collection_card')
+        Card, verbose_name='Карточки в коллекции', related_name='collection_card', blank=True)
 
     def get_collection_cards(self):
         return "\n".join([f'{p.name} || ' for p in self.cards.all()])
