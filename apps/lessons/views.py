@@ -224,12 +224,12 @@ class CollectionListAPI(generics.ListAPIView):
 
 
 class CollectionGetAPI(generics.RetrieveAPIView):
-    queryset = Group.objects.all()
+    queryset = Collection.objects.all()
     serializer_class = CollectionGetSerializer
 
 
 class CollectionCreateAPI(generics.CreateAPIView):
-    queryset = Group.objects.all()
+    queryset = Collection.objects.all()
     serializer_class = CollectionCreateSerializer
 
     def get_serializer_context(self):
