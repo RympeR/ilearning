@@ -259,7 +259,10 @@ class CollectionGetSerializer(serializers.ModelSerializer):
 
 
 class CollectionCreateSerializer(serializers.ModelSerializer):
-
+    user = serializers.PrimaryKeyRelatedField(
+        required=False, queryset=User.objects.all())
+    cards = serializers.PrimaryKeyRelatedField(
+        required=False, queryset=Card.objects.all(), many=True)
     class Meta:
         model = Collection
         fields = '__all__'
