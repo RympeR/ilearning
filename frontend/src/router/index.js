@@ -60,7 +60,12 @@ const routes = [
     path: '/my/purchases',
     name: 'purchases',
     component: () => import( '@/views/Cabinet/Purchases.vue')
-  }
+  },
+  {
+    path: '/my/subscriptions',
+    name: 'subscriptions',
+    component: () => import( '@/views/Cabinet/Subscriptions.vue')
+  },
 ]
 
 const langRouterOptions = {
