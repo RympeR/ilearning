@@ -15,6 +15,7 @@ LANGUAGE_CHOICES = (
 )
 
 VALUTE_CHOICES = (
+    ('', ''),
     ('USD', 'USD'),
     ('UAH', 'UAH'),
     ('RUB', 'RUB'),
@@ -22,11 +23,6 @@ VALUTE_CHOICES = (
 
 
 class Card(models.Model):
-
-    class AcessoryLevel(models.IntegerChoices):
-        BASE = 1, 'Покупка'
-        ADVANCED = 2, 'Подписка'
-        PRO = 3, 'PRO  аккаунт'
 
     name = models.CharField('Название карточки', max_length=100)
     slug = models.SlugField('Слаг')
@@ -40,8 +36,8 @@ class Card(models.Model):
         verbose_name='Краткое описание', blank=True, null=True)
     full_description = HTMLField(
         verbose_name='Полное описание', blank=True, null=True)
-    price = models.FloatField('Цена')
-    valute = models.CharField(verbose_name='Валюта',
+    price = models.FloatField('Цена', blank=True, null=True)
+    valute = models.CharField(verbose_name='Валюта', null=True, blank=True,
                               max_length=3, choices=VALUTE_CHOICES)
     language = models.CharField(verbose_name='Язык',
                                 max_length=2, choices=LANGUAGE_CHOICES, default='UK')
@@ -51,8 +47,7 @@ class Card(models.Model):
                              upload_to=card_attachment, blank=True, null=True)
     hosting_url = models.URLField(
         verbose_name='Ссылка на видеохостинге', blank=True, null=True)
-    accessory_level = models.IntegerField(
-        'Уровень доступа', choices=AcessoryLevel.choices)
+    accessory_level = models.BooleanField('По покупке', default=False)
     learning_range = models.ManyToManyField(
         LearningRange, verbose_name='Периоды обучения', related_name='card_leargning_range')
     learning_themes = models.ManyToManyField(
