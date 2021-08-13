@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import (
-    CardListAPI,
+    CardSubscriptionListAPI,
+    CardPurchaseListAPI,
     CardRetrieveAPI,
     CardFilteredAPI,
     PurchasedCardCreateAPI,
@@ -30,6 +31,8 @@ from .views import (
 urlpatterns = [
     path('card-get/<int:pk>', CardRetrieveAPI.as_view(), name='card-get'),
     path('card-filtered/', CardFilteredAPI.as_view(), name='card-filtered'),
+    path('card-subscription-level-list/', CardSubscriptionListAPI.as_view(), name='card-filtered'),
+    path('card-purchase-level-list/', CardPurchaseListAPI.as_view(), name='card-filtered'),
     path('purchase-card-create/', PurchasedCardCreateAPI.as_view(), name='purchase-card-create'),
     path('purchase-card-list/', PurchasedCardListAPI.as_view(), name='purchase-card-list'),
     path('group-list/', GroupListAPI.as_view(), name='group-list'),

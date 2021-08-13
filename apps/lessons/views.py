@@ -123,6 +123,7 @@ class CardFilter(filters.FilterSet):
             'valute',
             'card_type',
             'card_type',
+            'accessory_level',
             'learning_range',
             'learning_subjects',
             'learning_themes',
@@ -131,9 +132,17 @@ class CardFilter(filters.FilterSet):
         )
 
 
-class CardListAPI(generics.ListAPIView):
+class CardSubscriptionListAPI(generics.ListAPIView):
     permission_classes = permissions.AllowAny,
-    queryset = Card.objects.all()
+    queryset = Card.objects.filter(accessory_level=False)
+    serializer_class = CardGetSerializer
+
+    def get_serializer_context(self):
+        return {'request': self.request}
+
+class CardPurchaseListAPI(generics.ListAPIView):
+    permission_classes = permissions.AllowAny,
+    queryset = Card.objects.filter(accessory_level=True)
     serializer_class = CardGetSerializer
 
     def get_serializer_context(self):
